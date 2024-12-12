@@ -7,7 +7,6 @@ var express = require('express');
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 
-
 // import swagger
 var swaggerUi = require('swagger-ui-express');
 var swaggerSpec = require('./swagger/swagger');

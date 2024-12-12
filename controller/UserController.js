@@ -80,10 +80,10 @@ const login = async (req, res) => {
         },
       });
 
-      const { email, name } = userResponse.data;
+      const { email, nickname } = userResponse.data;
 
       // 3. 사용자 정보 DB 처리
-      const findUserSql = "SELECT * FROM user_table WHERE email = ?";
+      const findUserSql = "SELECT * FROM for_test.users WHERE email = ?";
       conn.query(findUserSql, [email], async (err, results) => {
         if (err) {
           console.error(err);
@@ -93,13 +93,13 @@ const login = async (req, res) => {
         let user;
         if (results.length === 0) {
           // 신규 사용자 저장
-          const createUserSql = `INSERT INTO user_table (name, email) VALUES (?, ?)`;
-          conn.query(createUserSql, [name, email], (err, results) => {
+          const createUserSql = `INSERT INTO for_test.users (nickname, email) VALUES (?, ?)`;
+          conn.query(createUserSql, [nickname, email], (err, results) => {
             if (err) {
               console.error(err);
               return res.status(StatusCodes.INTERNAL_SERVER_ERROR).end();
             }
-            user = { id: results.insertId, email, name };
+            user = { id: results.insertId, email, nickname };
             issueToken(res, user); // JWT 발급
           });
         } else {
@@ -113,7 +113,7 @@ const login = async (req, res) => {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Google login failed" });
     }
 } else if (email && password) {
-  const findUserSql = "SELECT * FROM user_table WHERE email = ?";
+  const findUserSql = "SELECT * FROM for_test.users WHERE email = ?";
   conn.query(findUserSql, [email], (err, results) => {
     if (err) {
       console.error(err);

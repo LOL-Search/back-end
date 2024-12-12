@@ -1,8 +1,12 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 var path = require('path');
 var logger = require('morgan');
 var express = require('express');
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
+
 
 // import swagger
 var swaggerUi = require('swagger-ui-express');
@@ -43,6 +47,14 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+ // **
+
+const port = process.env.PORT || 9999;
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
 
 module.exports = app;

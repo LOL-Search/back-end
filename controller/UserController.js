@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 const conn = require("../mariadb"); 
 const axios = require("axios");
 const { StatusCodes } = require("http-status-codes"); //status code 모듈
@@ -80,7 +81,7 @@ const login = async (req, res) => {
         },
       });
 
-      const { email, nickname } = userResponse.data;
+      const { email, nickname, id: google_id } = userResponse.data;
 
       // 3. 사용자 정보 DB 처리
       const findUserSql = "SELECT * FROM for_test.users WHERE email = ?";
@@ -93,18 +94,30 @@ const login = async (req, res) => {
         let user;
         if (results.length === 0) {
           // 신규 사용자 저장
-          const createUserSql = `INSERT INTO for_test.users (nickname, email) VALUES (?, ?)`;
-          conn.query(createUserSql, [nickname, email], (err, results) => {
+          const userUuid = uuidv4(); // 새로운 UUID 생성
+          const createUserSql = `INSERT INTO for_test.users (nickname, email, uuid) VALUES (?, ?, ?)`;
+          conn.query(createUserSql, [nickname, email, userUuid], (err, results) => {
             if (err) {
               console.error(err);
               return res.status(StatusCodes.INTERNAL_SERVER_ERROR).end();
             }
-            user = { id: results.insertId, email, nickname };
+            user = { id: results.insertId, email, nickname, uuid: userUuid };
             issueToken(res, user); // JWT 발급
           });
         } else {
           // 기존 사용자 처리
           user = results[0];
+          // 기존에 google_id가 없으면 업데이트 처리
+          if (!user.uuid) {
+            const userUuid = uuidv4(); // google_id를 UUID로 변환
+            const updateGoogleIdSql = "UPDATE for_test.users SET uuid = ? WHERE email = ?";
+            conn.query(updateGoogleIdSql, [userUuid, email], (err, results) => {
+              if (err) {
+                console.error(err);
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR).end();
+              }
+            });
+          }
           issueToken(res, user); // JWT 발급
         }
       });

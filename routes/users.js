@@ -22,5 +22,5 @@ router.get('/', function(req, res, next) {
 
 const authController = require('../controllers/authController');
 router.post('/login', authController.googleLogin);
-router.po
+
 module.exports = router;

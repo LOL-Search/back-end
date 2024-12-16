@@ -20,4 +20,7 @@ router.get('/', function(req, res, next) {
   res.send('Hello world');
 });
 
+const authController = require('../controllers/authController');
+router.post('/login', authController.googleLogin);
+
 module.exports = router;

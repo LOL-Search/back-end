@@ -1,6 +1,6 @@
 const axios = require('axios');
 const jwtUtil = require('../utils/jwt');
-const userRepository = require('../repositories/userRepository');
+const userStore = require('../store/userStore');
 require('dotenv').config();
 
 class AuthService {
@@ -24,9 +24,9 @@ class AuthService {
         const { id: google_id, email, name } = userInfoResponse.data;
         console.log(google_id+" "+email+" "+name)
         // 3. 사용자 확인 및 DB 저장
-        let user = await userRepository.findByGoogleId(google_id);
+        let user = await userStore.findByGoogleId(google_id);
         if (!user) {
-            user = await userRepository.createUser({ google_id, email, name });
+            user = await userStore.createUser({ google_id, email, name });
         }
 
         // 4. JWT 토큰 생성

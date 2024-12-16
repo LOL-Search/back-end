@@ -1,4 +1,4 @@
-const auth = require('../token');
+const jwtUtil = require('../utils/jwt');
 const postStore = require('../store/postStore');
 
 const post = {}
@@ -96,7 +96,7 @@ post.createPost = async (req, res) => {
     const token = req.headers['authorization'];
     if (!token) return errorMessage(res, 401);
 
-    const authorization = auth.authenticateToken(token.split(' ')[1]);
+    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
     
     const result = await postStore.createPost([authorization.id, title, content]);
     /* 수정될 코드 */
@@ -124,7 +124,7 @@ post.editPost = async (req, res) => {
     const token = req.headers['authorization'];
     if (!token) return errorMessage(res, 401);
 
-    const authorization = auth.authenticateToken(token.split(' ')[1]);
+    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
     if (userId != authorization.id) return errorMessage(res, 403);
     /* 수정될 코드 */
 
@@ -153,7 +153,7 @@ post.delPost = async (req, res) => {
     const token = req.headers['authorization'];
     if (!token) return errorMessage(res, 401);
     
-    const authorization = auth.authenticateToken(token.split(' ')[1]);
+    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
     if (userId != authorization.id) return errorMessage(res, 403);
     /* 수정될 코드 */
 

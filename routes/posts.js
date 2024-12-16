@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var post = require('../controllers/postController');
-var comment = require('../controllers/commentController');
+const post = require('../controllers/postController');
+const comment = require('../controllers/commentController');
 
 /**
  *  @swagger

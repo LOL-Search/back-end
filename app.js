@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 
 // import swagger
 var swaggerUi = require('swagger-ui-express');
-var swaggerSpec = require('./swagger/swagger');
+var swaggerSpec = require('./config/swagger');
 
 // import routes
 var indexRouter = require('./routes/index');

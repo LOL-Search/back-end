@@ -35,6 +35,7 @@ var comment = require('../controllers/commentController');
  *                      title: "자유 랭크 게임 인원 모집 (3/5)",
  *                      content: "골드 이상 미드 또는 탑 라인 가시는 분 (탑베인 사절)",
  *                      views: 5,
+ *                      comments: 6,
  *                      postId: 1,
  *                      userId: 1,
  *                      userName: "알리스타",
@@ -44,6 +45,7 @@ var comment = require('../controllers/commentController');
  *                      title: "이번에 출시한 신규 챔피언은 사기가 맞다",
  *                      content: "아니, 벽을 연속으로 넘어다니는 챔피언이 캐릭터냐?!",
  *                      views: 132,
+ *                      comments: 13,
  *                      postId: 2,
  *                      userId: 2,
  *                      userName: "조이",
@@ -53,6 +55,7 @@ var comment = require('../controllers/commentController');
  *                      title: "아케인 시즌2 징크스 이쁘다",
  *                      content: "아케인 시즌2에 나오는 징크스 게임에서도 스킨으로 나왔으면 좋겠다:)",
  *                      views: 5132,
+ *                      comments: 0,
  *                      postId: 3,
  *                      userId: 3,
  *                      userName: "징크스", 
@@ -175,6 +178,7 @@ router.post('/', post.createPost);
  *                    title: "우리팀 유미는...",
  *                    content: "우리팀 유미 나한테 붙어서 아무것도 안함:( PC방 라면시킨듯...",
  *                    views: 132,
+ *                    comments: 0,
  *                    postId: 2,
  *                    userId: 2,
  *                    userName: 카시오페아,
@@ -543,6 +547,7 @@ router.post('/:postId/comments', comment.createComment);
  *              content:
  *                application/json:
  *                  example: {
+ *                    postId: 101,
  *                    message: "댓글이 성공적으로 수정되었습니다."
  *                  }
  *            400:
@@ -622,6 +627,7 @@ router.put('/:postId/comments/:commentId', comment.editComment);
  *              content:
  *                application/json:
  *                  example: {
+ *                    postId: 101,
  *                    message: "댓글이 삭제되었습니다."
  *                  }
  *            400:

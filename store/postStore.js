@@ -4,7 +4,7 @@ class PostStore {
   // 게시판 조회
   async getBoard(userName) {
     let queryParams = [];
-    let query = `SELECT posts.*, users.nickname AS user_name
+    let query = `SELECT posts.*, users.nickname AS user_name, (SELECT COUNT(*) FROM comments WHERE post_id = posts.id) AS comments
                  FROM posts JOIN users ON posts.user_id = users.id`;
     if (userName) {
       query += ` WHERE users.nickname = ?`;
@@ -15,9 +15,8 @@ class PostStore {
   }
   // 게시물 조회
   async getPost(queryParams) {
-    const selectQuery = `SELECT posts.*, users.nickname AS user_name
-                         FROM posts JOIN users ON posts.user_id = users.id
-                         WHERE posts.id = ?`;
+    const selectQuery = `SELECT posts.*, users.nickname AS user_name, (SELECT COUNT(*) FROM comments WHERE post_id = posts.id) AS comments
+                         FROM posts JOIN users ON posts.user_id = users.id`;
     const updateQuery = `UPDATE posts SET views = views + 1 WHERE id = ?`;
 
     const connection = await db.getConnection();

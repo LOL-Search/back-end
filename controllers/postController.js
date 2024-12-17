@@ -61,14 +61,12 @@ post.createPost = async (req, res) => {
     const { title, content } = req.body;
     if (!title || !content) return errorMessage(res, 400);
     
-    /* 수정될 코드 */
     const token = req.headers['authorization'];
     if (!token) return errorMessage(res, 401);
 
     const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
     
     const result = await postStore.createPost([authorization.id, title, content]);
-    /* 수정될 코드 */
 
     if (result.affectedRows == 1) {
       return res.status(201).json({
@@ -89,13 +87,11 @@ post.editPost = async (req, res) => {
     const { userId, title, content } = req.body;
     if (!userId || !title || !content) return errorMessage(res, 400);
 
-    /* 수정될 코드 */
     const token = req.headers['authorization'];
     if (!token) return errorMessage(res, 401);
 
     const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
     if (userId != authorization.id) return errorMessage(res, 403);
-    /* 수정될 코드 */
 
     const result = await postStore.editPost([title, content, postId]);
 
@@ -118,13 +114,11 @@ post.delPost = async (req, res) => {
     const { userId } = req.body;
     if (!userId) return errorMessage(res, 400);
 
-    /* 수정될 코드 */
     const token = req.headers['authorization'];
     if (!token) return errorMessage(res, 401);
     
     const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
     if (userId != authorization.id) return errorMessage(res, 403);
-    /* 수정될 코드 */
 
     const result = await postStore.delPost([postId]);
 

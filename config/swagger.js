@@ -1,17 +1,19 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 
+require('dotenv').config();
+
 // Swagger 설정
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Express API Documentation',
+      title: 'LOL Search API',
       version: '1.0.0',
-      description: 'Documentation',
+      description: 'API Documentation',
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: process.env.URL,
       },
     ],
   },

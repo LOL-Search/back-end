@@ -1,42 +1,36 @@
-name: Deploy to EC2
+name: Node.js Dev CI/CD
 
 on:
   push:
     branches:
-      - main  # main 브랜치에 푸시될 때 자동으로 배포 실행
+      - main
+  workflow_dispatch: # 수동 실행도 가능하도록 함
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # 우분투 최신 버전으로 실행
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  # 리포지토리의 코드를 체크아웃 합니다.
+      # Checkout the code
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2  # Node.js를 설정합니다.
+      # Deploy to EC2
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          node-version: '16'  # 사용하고 싶은 Node.js 버전을 설정합니다.
-
-      - name: Install dependencies
-        run: npm install  # 종속성(모듈)을 설치합니다.
-
-      - name: Add EC2 host to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts  # EC2 인스턴스의 호스트 키를 known_hosts에 추가
-
-      - name: Copy files to EC2
-        env:
-          PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # GitHub Secrets에 저장된 EC2 SSH 개인 키
-          USER: ${{ secrets.EC2_USER }}  # GitHub Secrets에 저장된 EC2 사용자 이름
-          HOST: ${{ secrets.EC2_HOST }}  # GitHub Secrets에 저장된 EC2 호스트(공용 IP 주소)
-        run: |
-          echo "$PRIVATE_KEY" > private_key.pem  # 개인 키를 파일로 저장
-          chmod 600 private_key.pem  # 개인 키 파일의 권한을 설정
-          ssh -i private_key.pem $USER@$HOST "mkdir -p /home/$USER/lol"  # EC2에서 디렉터리 생성
-          scp -i private_key.pem -r ./* $USER@$HOST:/home/$USER/lol  # EC2로 파일 복사
-
-      - name: Restart app using pm2
-        run: |
-          ssh -i private_key.pem $USER@$HOST -o StrictHostKeyChecking=no "cd /home/$USER/lol && pm2 restart bin/www"  # EC2에서 앱을 재시작
+          host: ${{ secrets.AWS_EC2_HOST }}  # EC2 호스트 (IP 또는 도메인)
+          username: ${{ secrets.AWS_EC2_USER }}  # EC2 사용자 이름 (예: ec2-user)
+          key: ${{ secrets.AWS_EC2_KEY }}  # GitHub Secrets에 저장된 EC2 SSH 개인 키
+          script: |
+            cd /home/$USER/lol  # EC2에서 작업할 디렉터리로 이동
+            git pull origin main  # main 브랜치에서 최신 코드 가져오기
+            if ! command -v node &> /dev/null; then
+              curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -  # Node.js 설치
+              sudo apt install -y nodejs
+            fi
+            if ! command -v npm &> /dev/null; then
+              sudo apt install -y npm  # npm 설치
+            fi
+            npm ci  # 의존성 설치 (package-lock.json에 맞게)
+            npx pm2 restart /home/$USER/lol/bin/www.js --name "my-app"  # pm2로 bin/www.js 실행

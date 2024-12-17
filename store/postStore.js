@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 class PostStore {
   // 게시판 조회
-  async getBoard(userName) {
+  async getBoard(userName, page, pageSize) {
     let queryParams = [];
     let query = `SELECT posts.*, users.nickname AS user_name, (SELECT COUNT(*) FROM comments WHERE post_id = posts.id) AS comments
                  FROM posts JOIN users ON posts.user_id = users.id`;
@@ -10,13 +10,28 @@ class PostStore {
       query += ` WHERE users.nickname = ?`;
       queryParams.push(userName);
     }
+
+    if (page) {
+      queryParams.push(page);
+    } else {
+      queryParams.push(1);
+    }
+
+    if (pageSize) {
+      queryParams.push(pageSize);
+    } else {
+      queryParams(10);
+    }
+
+    query += ` LIMIT ? OFFSET ?`;
+
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }
   // 게시물 조회
   async getPost(queryParams) {
     const selectQuery = `SELECT posts.*, users.nickname AS user_name, (SELECT COUNT(*) FROM comments WHERE post_id = posts.id) AS comments
-                         FROM posts JOIN users ON posts.user_id = users.id`;
+                         FROM posts JOIN users ON posts.user_id = users.id WHERE posts.id = ?`;
     const updateQuery = `UPDATE posts SET views = views + 1 WHERE id = ?`;
 
     const connection = await db.getConnection();

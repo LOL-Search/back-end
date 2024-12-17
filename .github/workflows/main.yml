@@ -34,8 +34,9 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key.pem  # 개인 키를 파일로 저장
           chmod 600 private_key.pem  # 개인 키 파일의 권한을 설정
-          scp -i private_key.pem -r ./* $USER@$HOST:/home/$USER/app  # EC2로 파일 복사
+          ssh -i private_key.pem $USER@$HOST "mkdir -p /home/$USER/lol"  # EC2에서 디렉터리 생성
+          scp -i private_key.pem -r ./* $USER@$HOST:/home/$USER/lol  # EC2로 파일 복사
 
       - name: Restart app using pm2
         run: |
-          ssh -i private_key.pem $USER@$HOST -o StrictHostKeyChecking=no "cd /home/$USER/app && pm2 restart bin/www"  # EC2에서 앱을 재시작
+          ssh -i private_key.pem $USER@$HOST -o StrictHostKeyChecking=no "cd /home/$USER/lol && pm2 restart bin/www"  # EC2에서 앱을 재시작

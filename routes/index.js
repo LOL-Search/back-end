@@ -1,25 +1,13 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/**
-* @swagger
-*   /:
-*     get:
-*       description: "default page API"
-*       responses:
-*         200:
-*           description: "success"
-*           content:
-*             application/json:
-*               schema:
-*                 type: string
-*                 example: "Welcome to Express"
-*/
-/**
+const token = require('../utils/jwt');
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  const payload = { id: 1 };
+  const jwt = token.generateToken(payload);
+  res.header('Authorization', jwt).json({ token : jwt });
+  // res.render('index', { title: 'Express' })
 });
 
 module.exports = router;

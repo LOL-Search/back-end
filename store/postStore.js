@@ -11,19 +11,17 @@ class PostStore {
       queryParams.push(userName);
     }
 
-    if (page) {
-      queryParams.push(page);
-    } else {
-      queryParams.push(1);
-    }
-
-    if (pageSize) {
-      queryParams.push(pageSize);
-    } else {
-      queryParams(10);
-    }
-
+    let limit = pageSize ? pageSize : 10;
+    queryParams.push(`${limit}`);
+    
+    let offset = page ? limit * (page - 1) : 0;
+    queryParams.push(`${offset}`);
+    
     query += ` LIMIT ? OFFSET ?`;
+
+    console.log(userName, page, pageSize);
+    console.log(query);
+    console.log(queryParams);
 
     const [rows] = await db.execute(query, queryParams);
     return rows;

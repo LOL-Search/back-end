@@ -9,22 +9,34 @@ const comment = require('../controllers/commentController');
  *    paths:
  *      /posts:
  *        get:
- *          summary: "게시판 조회 및 유저별 게시물 검색"
+ *          summary: "게시판 조회"
  *          tags:
  *            - 게시물 API
  *          parameters:
  *            - in: header
  *              name: Authorization
- *              description: Bearer token
+ *              description: "Bearer token"
  *              required: false
  *              schema:
  *                type: string
  *            - in: query
  *              name: userName
- *              description: User name
+ *              description: "User name"
  *              required: false
  *              schema:
  *                type: string
+ *            - in: query
+ *              name: page
+ *              description: "Current page (default: 1 page)"
+ *              required: false
+ *              schema:
+ *                type: integer
+ *            - in: query
+ *              name: pageSize
+ *              description: "Number of posts per page (default: 10)"
+ *              required: false
+ *              schema:
+ *                type: integer
  *          responses:
  *            200:
  *              description: "게시판 조회 성공"
@@ -91,7 +103,7 @@ router.get('/', post.getBoard);
  *          parameters:
  *            - in: header
  *              name: Authorization
- *              description: Bearer token
+ *              description: "Bearer token"
  *              required: true
  *              schema:
  *                type: string

@@ -19,9 +19,9 @@ exports.googleLogin = async (req, res) => {
 
 exports.getPuuid = async (req, res) => {
     try {
-        const { userName } = req.query;
+        const { userName, page, pageSize } = req.query;
 
-        const results = await userStore.findByUserName(userName);
+        const results = await userStore.findByUserName(userName, page, pageSize);
 
         if (results.length) {
             return res.status(200).json(results);

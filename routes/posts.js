@@ -80,7 +80,7 @@ const comment = require('../controllers/commentController');
  *                application/json:
  *                  example: {
  *                    errorCode: "NOT_FOUND",
- *                    message: "해당 게시물이 없습니다."
+ *                    message: "해당 내용이 없습니다."
  *                  }
  *            500:
  *              description: "서버 에러"

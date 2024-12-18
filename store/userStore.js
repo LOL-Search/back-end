@@ -15,7 +15,7 @@ class UserStore {
     return { id: result.insertId, ...user };
   }
 
-  async findByUserName(userName) {
+  async findByUserName(userName, page, pageSize) {
     let queryParams = [];
     let query = `SELECT * FROM users`;
 
@@ -23,6 +23,15 @@ class UserStore {
       query += ` WHERE nickname = ?`;
       queryParams.push(userName);
     }
+
+    let limit = pageSize ? pageSize : 10;
+    queryParams.push(`${limit}`);
+    
+    let offset = page ? limit * (page - 1) : 0;
+    queryParams.push(`${offset}`);
+    
+    query += ` LIMIT ? OFFSET ?`;
+    
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }

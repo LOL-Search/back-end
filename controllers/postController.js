@@ -58,15 +58,18 @@ post.getPost = async (req, res) => {
 // 게시물 등록
 post.createPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    if (!title || !content) return errorMessage(res, 400);
-    
-    const token = req.headers['authorization'];
-    if (!token) return errorMessage(res, 401);
 
-    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
+    const { id, title, content } = req.body;
+    if (!id || !title || !content) return errorMessage(res, 400);
     
-    const result = await postStore.createPost([authorization.id, title, content]);
+    // const token = req.headers['authorization'];
+    // if (!token) return errorMessage(res, 401);
+
+    // const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
+    
+    // const result = await postStore.createPost([authorization.id, title, content]);
+
+    const result = await postStore.createPost([id, title, content]);
 
     if (result.affectedRows == 1) {
       return res.status(201).json({
@@ -84,14 +87,17 @@ post.editPost = async (req, res) => {
     const { postId } = req.params;
     if (!postId) return errorMessage(res, 400);
 
-    const { userId, title, content } = req.body;
-    if (!userId || !title || !content) return errorMessage(res, 400);
+    const { title, content } = req.body;
+    if (!title || !content) return errorMessage(res, 400);
 
-    const token = req.headers['authorization'];
-    if (!token) return errorMessage(res, 401);
+    // const { userId, title, content } = req.body;
+    // if (!userId || !title || !content) return errorMessage(res, 400);
 
-    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
-    if (userId != authorization.id) return errorMessage(res, 403);
+    // const token = req.headers['authorization'];
+    // if (!token) return errorMessage(res, 401);
+
+    // const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
+    // if (userId != authorization.id) return errorMessage(res, 403);
 
     const result = await postStore.editPost([title, content, postId]);
 
@@ -111,14 +117,14 @@ post.delPost = async (req, res) => {
     const { postId } = req.params;
     if (!postId) return errorMessage(res, 400);
     
-    const { userId } = req.body;
-    if (!userId) return errorMessage(res, 400);
+    // const { userId } = req.body;
+    // if (!userId) return errorMessage(res, 400);
 
-    const token = req.headers['authorization'];
-    if (!token) return errorMessage(res, 401);
+    // const token = req.headers['authorization'];
+    // if (!token) return errorMessage(res, 401);
     
-    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
-    if (userId != authorization.id) return errorMessage(res, 403);
+    // const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
+    // if (userId != authorization.id) return errorMessage(res, 403);
 
     const result = await postStore.delPost([postId]);
 

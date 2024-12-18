@@ -19,9 +19,9 @@ class PostStore {
     
     query += ` LIMIT ? OFFSET ?`;
 
-    console.log(userName, page, pageSize);
-    console.log(query);
-    console.log(queryParams);
+    // console.log(userName, page, pageSize);
+    // console.log(query);
+    // console.log(queryParams);
 
     const [rows] = await db.execute(query, queryParams);
     return rows;

@@ -104,7 +104,7 @@ router.get('/', post.getBoard);
  *            - in: header
  *              name: Authorization
  *              description: "Bearer token"
- *              required: true
+ *              required: false
  *              schema:
  *                type: string
  *          requestBody:
@@ -114,17 +114,18 @@ router.get('/', post.getBoard);
  *                schema:
  *                  type: object
  *                  properties:
- *                    userId:
+ *                    id:
  *                      type: integer
  *                    title:
  *                      type: string
  *                    content:
  *                      type: string
  *                  required:
- *                    - userId
+ *                    - id
  *                    - title
  *                    - content
  *                example:
+ *                  id: 3
  *                  title: "새로운 챔피언 분석"
  *                  content: "이번 패치로 인해 게임 메타가 바뀌었습니다."
  *          responses:
@@ -230,7 +231,7 @@ router.get('/:postId', post.getPost);
  *            - in: header
  *              name: Authorization
  *              description: Bearer token
- *              required: true
+ *              required: false
  *              schema:
  *                type: string
  *          requestBody:
@@ -240,18 +241,14 @@ router.get('/:postId', post.getPost);
  *                schema:
  *                  type: object
  *                  properties:
- *                    userId:
- *                      type: integer
  *                    title:
  *                      type: string
  *                    content:
  *                      type: string
  *                  required:
- *                    - userId
  *                    - title
  *                    - content
  *                example:
- *                  userId: 6
  *                  title: "업데이트된 제목"
  *                  content: "수정된 게시물 내용입니다."
  *          responses:
@@ -313,22 +310,9 @@ router.put('/:postId', post.editPost);
  *            - in: header
  *              name: Authorization
  *              description: Bearer token
- *              required: true
+ *              required: false
  *              schema:
  *                type: string
- *          requestBody:
- *            required: true
- *            content:
- *              application/json:
- *                schema:
- *                  type: object
- *                  properties:
- *                    userId:
- *                      type: integer
- *                  required:
- *                    - userId
- *                example:
- *                  userId: 6
  *          responses:
  *            200:
  *              description: "게시물 삭제 성공"
@@ -452,7 +436,7 @@ router.get('/:postId/comments', comment.getComment);
  *            - in: header
  *              name: Authorization
  *              description: Bearer token
- *              required: true
+ *              required: false
  *              schema:
  *                type: string
  *          requestBody:
@@ -462,11 +446,15 @@ router.get('/:postId/comments', comment.getComment);
  *                schema:
  *                  type: object
  *                  properties:
+ *                    id:
+ *                      type: integer
  *                    content:
  *                      type: string
  *                  required:
+ *                    - id
  *                    - content
  *                example:
+ *                  id: 3
  *                  content: "쉽지 않네..."
  *          responses:
  *            201:
@@ -533,7 +521,7 @@ router.post('/:postId/comments', comment.createComment);
  *            - in: header
  *              name: Authorization
  *              description: Bearer token
- *              required: true
+ *              required: false
  *              schema:
  *                type: string
  *          requestBody:
@@ -543,15 +531,11 @@ router.post('/:postId/comments', comment.createComment);
  *                schema:
  *                  type: object
  *                  properties:
- *                    userId:
- *                      type: integer
  *                    content:
  *                      type: string
  *                  required:
- *                    - userId
  *                    - content
  *                example:
- *                  userId: 45
  *                  content: "수정된 댓글 내용입니다."
  *          responses:
  *            200:
@@ -617,22 +601,9 @@ router.put('/:postId/comments/:commentId', comment.editComment);
  *                type: integer
  *            - in: header
  *              name: Authorization
- *              required: true
+ *              required: false
  *              schema:
  *                type: string
- *          requestBody:
- *            required: true
- *            content:
- *              application/json:
- *                schema:
- *                  type: object
- *                  properties:
- *                    userId:
- *                      type: integer
- *                  required:
- *                    - userId
- *                example:
- *                  userId: 45
  *          responses:
  *            200:
  *              description: "댓글 삭제 성공"

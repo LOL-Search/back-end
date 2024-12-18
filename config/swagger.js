@@ -13,7 +13,8 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: process.env.URL,
+        // url: "http://localhost:3000",
+        url: "http://43.200.225.123:9999",
       },
     ],
   },

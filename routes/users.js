@@ -3,6 +3,7 @@ var router = express.Router();
 
 const authController = require('../controllers/authController');
 
+router.get('/', authController.getPuuid);
 /**
  *  @swagger
  *  paths:
@@ -70,9 +71,8 @@ const authController = require('../controllers/authController');
  *                  "error": "Some error message"
  *                }
  */
-
-
 router.post('/login', authController.googleLogin);
+
 router.get('/test', (req, res) => {
     // 테스트용 JSON 응답
     const testData = {

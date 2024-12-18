@@ -1,3 +1,5 @@
+const userStore = require('../store/userStore');
+const errorMessage = require('../utils/errorMessage');
 const authService = require('../services/authService');
 
 exports.googleLogin = async (req, res) => {
@@ -12,5 +14,22 @@ exports.googleLogin = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Google login failed.', error: error.message });
+    }
+};
+
+exports.getPuuid = async (req, res) => {
+    try {
+        const { userName } = req.query;
+
+        const results = await userStore.findByUserName(userName);
+
+        if (results.length) {
+            return res.status(200).json(results);
+        } else {
+            return errorMessage(res, 404);
+        }
+    } catch (error) {
+        console.error(error);
+        return errorMessage(res, 500);
     }
 };

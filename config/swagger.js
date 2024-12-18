@@ -11,6 +11,20 @@ const swaggerOptions = {
       version: '1.0.0',
       description: 'API Documentation',
     },
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        BearerAuth: [],
+      },
+    ],
     servers: [
       {
         // url: "http://localhost:9999",

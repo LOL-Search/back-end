@@ -13,12 +13,6 @@ const comment = require('../controllers/commentController');
  *          tags:
  *            - 게시물 API
  *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: false
- *              schema:
- *                type: string
  *            - in: query
  *              name: userName
  *              description: "User name"
@@ -100,13 +94,6 @@ router.get('/', post.getBoard);
  *          summary: "게시물 등록"
  *          tags:
  *            - 게시물 API
- *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: false
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -114,18 +101,14 @@ router.get('/', post.getBoard);
  *                schema:
  *                  type: object
  *                  properties:
- *                    id:
- *                      type: integer
  *                    title:
  *                      type: string
  *                    content:
  *                      type: string
  *                  required:
- *                    - id
  *                    - title
  *                    - content
  *                example:
- *                  id: 3
  *                  title: "새로운 챔피언 분석"
  *                  content: "이번 패치로 인해 게임 메타가 바뀌었습니다."
  *          responses:
@@ -177,11 +160,6 @@ router.post('/', post.createPost);
  *              schema:
  *                type: integer
  *              required: true
- *            - in: header
- *              name: Authorization
- *              required: false
- *              schema:
- *                type: string
  *          responses:
  *            200:
  *              description: "게시판 조회 성공"
@@ -228,12 +206,6 @@ router.get('/:postId', post.getPost);
  *              schema:
  *                type: integer
  *              required: true
- *            - in: header
- *              name: Authorization
- *              description: Bearer token
- *              required: false
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -307,12 +279,6 @@ router.put('/:postId', post.editPost);
  *              schema:
  *                type: integer
  *              required: true
- *            - in: header
- *              name: Authorization
- *              description: Bearer token
- *              required: false
- *              schema:
- *                type: string
  *          responses:
  *            200:
  *              description: "게시물 삭제 성공"
@@ -433,12 +399,6 @@ router.get('/:postId/comments', comment.getComment);
  *              required: true
  *              schema:
  *                type: integer
- *            - in: header
- *              name: Authorization
- *              description: Bearer token
- *              required: false
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -446,15 +406,11 @@ router.get('/:postId/comments', comment.getComment);
  *                schema:
  *                  type: object
  *                  properties:
- *                    id:
- *                      type: integer
  *                    content:
  *                      type: string
  *                  required:
- *                    - id
  *                    - content
  *                example:
- *                  id: 3
  *                  content: "쉽지 않네..."
  *          responses:
  *            201:
@@ -518,12 +474,6 @@ router.post('/:postId/comments', comment.createComment);
  *              required: true
  *              schema:
  *                type: integer
- *            - in: header
- *              name: Authorization
- *              description: Bearer token
- *              required: false
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -599,11 +549,6 @@ router.put('/:postId/comments/:commentId', comment.editComment);
  *              required: true
  *              schema:
  *                type: integer
- *            - in: header
- *              name: Authorization
- *              required: false
- *              schema:
- *                type: string
  *          responses:
  *            200:
  *              description: "댓글 삭제 성공"

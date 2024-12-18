@@ -11,7 +11,7 @@ const errorMessage = (res, statusCode) => {
         "message": "회원 인증이 필요합니다."
       });
     case 403:
-      return res.state(403).json({
+      return res.status(403).json({
         "errorCode": "FORBIDDEN",
         "message": "수정할 권한이 없습니다."
       });

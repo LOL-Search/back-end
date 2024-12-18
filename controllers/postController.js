@@ -58,18 +58,15 @@ post.getPost = async (req, res) => {
 // 게시물 등록
 post.createPost = async (req, res) => {
   try {
-
-    const { id, title, content } = req.body;
-    if (!id || !title || !content) return errorMessage(res, 400);
+    const { title, content } = req.body;
+    if (!title || !content) return errorMessage(res, 400);
     
-    // const token = req.headers['authorization'];
-    // if (!token) return errorMessage(res, 401);
+    const token = req.headers['authorization'];
+    if (!token) return errorMessage(res, 401);
 
-    // const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
+    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
     
-    // const result = await postStore.createPost([authorization.id, title, content]);
-
-    const result = await postStore.createPost([id, title, content]);
+    const result = await postStore.createPost([authorization.id, title, content]);
 
     if (result.affectedRows == 1) {
       return res.status(201).json({
@@ -86,28 +83,27 @@ post.editPost = async (req, res) => {
   try {
     const { postId } = req.params;
     if (!postId) return errorMessage(res, 400);
+  
+    const token = req.headers['authorization'];
+    if (!token) return errorMessage(res, 401);
 
     const { title, content } = req.body;
     if (!title || !content) return errorMessage(res, 400);
 
-    // const { userId, title, content } = req.body;
-    // if (!userId || !title || !content) return errorMessage(res, 400);
+    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
 
-    // const token = req.headers['authorization'];
-    // if (!token) return errorMessage(res, 401);
-
-    // const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
-    // if (userId != authorization.id) return errorMessage(res, 403);
-
-    const result = await postStore.editPost([title, content, postId]);
+    const result = await postStore.editPost([title, content, postId, authorization.id]);
 
     if (result.affectedRows == 1) {
       return res.status(200).json({
         "postId": postId,
         "message": "게시물이 성공적으로 수정되었습니다."
       });
+    } else {
+      return errorMessage(res, 403);
     }
   } catch (error) {
+    console.log(error);
     return errorMessage(res, 500);
   }
 }
@@ -116,25 +112,24 @@ post.delPost = async (req, res) => {
   try {
     const { postId } = req.params;
     if (!postId) return errorMessage(res, 400);
-    
-    // const { userId } = req.body;
-    // if (!userId) return errorMessage(res, 400);
 
-    // const token = req.headers['authorization'];
-    // if (!token) return errorMessage(res, 401);
+    const token = req.headers['authorization'];
+    if (!token) return errorMessage(res, 401);
     
-    // const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
-    // if (userId != authorization.id) return errorMessage(res, 403);
+    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
 
-    const result = await postStore.delPost([postId]);
+    const result = await postStore.delPost([postId, authorization.id]);
 
     if (result.affectedRows == 1) {
       return res.status(200).json({
         "postId": postId,
-        "message": "게시물이 성공적으로 삭제되었습니다."
+        "message": "게시물이 성공적으로 삭제제되었습니다."
       });
+    } else {
+      return errorMessage(res, 403);
     }
   } catch (error) {
+    console.log(error);
     return errorMessage(res, 500);
   }
 }

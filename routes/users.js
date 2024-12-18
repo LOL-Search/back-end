@@ -50,9 +50,9 @@ const authController = require('../controllers/authController');
  *                          type: string
  *                          description: "사용자 이메일"
  *                          example: "hong@domain.com"
- *                        google_id:
+ *                        uuid:
  *                          type: string
- *                          description: "구글 ID"
+ *                          description: "구글에서 받은 고유 ID (UUID)"
  *                          example: "1234567890"
  *          400:
  *            description: "잘못된 요청: 인가 코드가 없음"
@@ -70,6 +70,7 @@ const authController = require('../controllers/authController');
  *                  "error": "Some error message"
  *                }
  */
+
 
 router.post('/login', authController.googleLogin);
 router.get('/test', (req, res) => {

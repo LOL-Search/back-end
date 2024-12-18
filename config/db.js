@@ -9,5 +9,5 @@ const db = mysql.createPool({
     port: process.env.DB_PORT,
     connectionLimit: 10,
 });
-
+console.log("Database connected successfully");
 module.exports = db.promise();

@@ -3,6 +3,7 @@ var logger = require('morgan');
 var express = require('express');
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
+const cors = require("cors");
 
 // import swagger
 var swaggerUi = require('swagger-ui-express');
@@ -14,6 +15,7 @@ var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

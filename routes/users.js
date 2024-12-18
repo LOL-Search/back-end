@@ -6,7 +6,7 @@ const authController = require('../controllers/authController');
 /**
  *  @swagger
  *  paths:
- *    /login:
+ *    /users/login:
  *      post:
  *        summary: "구글 로그인"
  *        tags:

@@ -3,7 +3,7 @@ var router = express.Router();
 
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
-
+const riotStatusController=require('../controllers/riotStatusController')
 /**
  *  @swagger
  *    paths:
@@ -259,5 +259,115 @@ router.get('/test', (req, res) => {
 
     res.json(testData);  // JSON 형식으로 응답
 });
+/**
+ *  @swagger
+ *  paths:
+ *    /users/status:
+ *      post:
+ *        summary: "소환사 상태 조회"
+ *        tags:
+ *          - 유저 API
+ *        requestBody:
+ *          required: true
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  userName:
+ *                    type: string
+ *                    description: "리그 오브 레전드 소환사 이름"
+ *                    example: "SummonerName"
+ *                  tag:
+ *                    type: string
+ *                    description: "리그 오브 레전드 소환사 태그"
+ *                    example: "1234"
+ *        responses:
+ *          200:
+ *            description: "소환사 상태 정보 조회 성공"
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    matchInfo:
+ *                      type: array
+ *                      description: "최근 20개 매치 정보"
+ *                      items:
+ *                        type: object
+ *                        properties:
+ *                          kills:
+ *                            type: integer
+ *                            description: "킬 수"
+ *                            example: 10
+ *                          assists:
+ *                            type: integer
+ *                            description: "어시스트 수"
+ *                            example: 5
+ *                          deaths:
+ *                            type: integer
+ *                            description: "죽은 횟수"
+ *                            example: 2
+ *                          kda:
+ *                            type: number
+ *                            format: float
+ *                            description: "킬/데스/어시스트 비율"
+ *                            example: 5.0
+ *                          win:
+ *                            type: boolean
+ *                            description: "승리 여부"
+ *                            example: true
+ *                          championName:
+ *                            type: string
+ *                            description: "선택한 챔피언 이름"
+ *                            example: "Zed"
+ *                    summonRank:
+ *                      type: array
+ *                      description: "소환사의 랭크 정보"
+ *                      items:
+ *                        type: object
+ *                        properties:
+ *                          queueType:
+ *                            type: string
+ *                            description: "게임 모드"
+ *                            example: "RANKED_SOLO_5x5"
+ *                          tier:
+ *                            type: string
+ *                            description: "티어"
+ *                            example: "GOLD"
+ *                          rank:
+ *                            type: string
+ *                            description: "랭크"
+ *                            example: "IV"
+ *                          leaguePoints:
+ *                            type: integer
+ *                            description: "리그 포인트"
+ *                            example: 40
+ *                          wins:
+ *                            type: integer
+ *                            description: "승리 수"
+ *                            example: 100
+ *                          losses:
+ *                            type: integer
+ *                            description: "패배 수"
+ *                            example: 50
+ *          400:
+ *            description: "잘못된 요청: 사용자 이름 또는 태그 누락"
+ *            content:
+ *              application/json:
+ *                example: {
+ *                  "message": "userName and tag are required."
+ *                }
+ *          500:
+ *            description: "서버 오류"
+ *            content:
+ *              application/json:
+ *                example: {
+ *                  "message": "get riot status failed.",
+ *                  "error": "Error details here"
+ *                }
+ */
+
+router.post('/status', riotStatusController.getStatus);
 
 module.exports = router;

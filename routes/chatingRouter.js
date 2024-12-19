@@ -11,13 +11,6 @@ router.use(express.json());
  *          summary: "채팅방 등록"
  *          tags:
  *            - 채팅방 API
- *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: true
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -76,12 +69,6 @@ router.post('/', chats.createChating);
  *          tags:
  *            - 채팅방 API
  *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: false
- *              schema:
- *                type: string
  *            - in: query
  *              name: page
  *              description: "Current page (default: 1 page)"
@@ -148,13 +135,6 @@ router.get('/', chats.allChatingRooms);
  *          summary: "메시지 등록"
  *          tags:
  *            - 채팅방 API
- *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: true
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -218,12 +198,11 @@ router.post('/message', chats.createMessage);
  *          tags:
  *            - 채팅방 API
  *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: false
+ *            - in: path
+ *              name: id
  *              schema:
- *                type: string
+ *                type: integer
+ *              required: true
  *            - in: query
  *              name: page
  *              description: "Current page (default: 1 page)"
@@ -293,13 +272,6 @@ router.get('/:id', chats.getMessages);
  *          summary: "채팅방 입장"
  *          tags:
  *            - 채팅방 API
- *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: true
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -360,11 +332,11 @@ router.post('/join', chats.joinRoom);
  *          tags:
  *            - 채팅방 API
  *          parameters:
- *            - in: header
- *              name: Authorization
- *              required: true
+ *            - in: path
+ *              name: id
  *              schema:
- *                type: string
+ *                type: integer
+ *              required: true
  *          responses:
  *            200:
  *              description: "채팅방 나오기 성공"
@@ -390,12 +362,12 @@ router.post('/join', chats.joinRoom);
  *                    message: "회원 인증이 필요합니다."
  *                  }
  *            404:
- *              description: "게시물 또는 댓글을 찾을 수 없음"
+ *              description: "채팅방을 찾을 수 없음"
  *              content:
  *                application/json:
  *                  example: {
  *                    errorCode: "NOT_FOUND",
- *                    message: "해당 게시물 또는 댓글이 없습니다."
+ *                    message: "해당 채팅방이 없습니다."
  *                  }
  *            500:
  *              description: "서버 에러"

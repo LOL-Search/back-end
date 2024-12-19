@@ -26,6 +26,7 @@ class ChatStore {
       
             let [results] = await db.execute(query, values);
             values = [user_id, results.insertId]
+            console.log(user_id);
             const [rows] = await db.execute(matchingQuery, values);
       
             await connection.commit();
@@ -49,9 +50,11 @@ class ChatStore {
     getMessages = async (user_id, room_id, currentPage, pageSize)=>{
         let limit = pageSize ? pageSize : 10;
         let offset = currentPage? limit * (pageSize-1) : 0;
+        console.log("-----");
         let query = `SELECT *, (SELECT sender_id = ?) AS fromMe FROM messages WHERE room_id = ? LIMIT ? OFFSET ?`;
         let values = [`${user_id}`, `${room_id}`, `${limit}`, `${offset}`];
         let [results] = await db.execute(query, values);
+        
         return results;
     }
 
@@ -84,6 +87,7 @@ class ChatStore {
             values = [`${room_id}`];
             await db.execute(delRoomQuery, values);  
           }
+          await connection.commit();
           
           return rows;
         } catch (error) {

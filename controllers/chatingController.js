@@ -53,10 +53,11 @@ chats.createChating = async (req, res)=>{
         if(!token) errorMessage(res, 401);
         const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
         let user_id = authorization.id;
-         
+        console.log(authorization);
+        
         let result = await chatStore.createChatingRoom(user_id, title);
         console.log(result);
-        if(result.affectedRows ==1){
+        if(result.affectedRows == 1){
             return res.status(201).json({
                 "message" : "채팅방이 등록 됐습니다."
             })
@@ -99,14 +100,15 @@ chats.getMessages = async (req, res)=>{
         let {id} = req.params;
         let roomId = id;
         let {page, pageSize} = req.query;
-        const token = req.heades['authorization'];
-
+  
+        const token = req.headers['authorization'];
+        console.log(id);
         if(!token) errorMessage(res, 401);
         const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
         let user_id = authorization.id;
         console.log(user_id);
         let results = await chatStore.getMessages(user_id, roomId, page, pageSize);
-        
+        console.log(results);
         if (results.length){
             results.map((result) => {
             result.createdAt = results.created_at;

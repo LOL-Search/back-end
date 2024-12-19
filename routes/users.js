@@ -277,11 +277,11 @@ router.get('/test', (req, res) => {
  *                  userName:
  *                    type: string
  *                    description: "리그 오브 레전드 소환사 이름"
- *                    example: "SummonerName"
+ *                    example: "캉 주"
  *                  tag:
  *                    type: string
  *                    description: "리그 오브 레전드 소환사 태그"
- *                    example: "1234"
+ *                    example: "1"
  *        responses:
  *          200:
  *            description: "소환사 상태 정보 조회 성공"

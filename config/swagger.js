@@ -27,8 +27,8 @@ const swaggerOptions = {
     ],
     servers: [
       {
-         url: "http://localhost:9999",
-        //url: "http://43.200.225.123:9999",
+        //url: "http://localhost:9999",
+        url: "http://43.200.225.123:9999",
       },
     ],
   },

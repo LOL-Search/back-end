@@ -10,6 +10,7 @@ const db = mysql.createPool({
     port: process.env.DB_PORT,
     dateStrings: true,
     connectionLimit: 10,
+    dateStrings : true
 });
 
 module.exports = db.promise();

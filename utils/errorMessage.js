@@ -6,7 +6,7 @@ const errorMessage = (res, statusCode) => {
         message: "요청 파라미터가 잘못되었습니다."
       });
     case 401:
-      res.status(401).json({
+      return res.status(401).json({
         "errorCode": "UNAUTHORIZED",
         "message": "회원 인증이 필요합니다."
       });

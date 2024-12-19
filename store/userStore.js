@@ -35,6 +35,11 @@ class UserStore {
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }
+  // 사용자 ID로 조회 (추가된 부분)
+  async findById(userId) {
+    const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [userId]);
+    return rows[0];
+  }
 }
 
 module.exports = new UserStore();

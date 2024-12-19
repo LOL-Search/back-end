@@ -37,7 +37,7 @@ const io = new Server(server, {
   }
 });
 
-require('../utils/socket')(io);
+require('../controllers/socketController')(io);
 
 /**
  * Listen on provided port, on all network interfaces.

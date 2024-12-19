@@ -13,7 +13,7 @@ var swaggerSpec = require('./config/swagger');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
-
+var chatingRouter = require('./routes/chatingRouter');
 var app = express();
 
 // view engine setup
@@ -33,9 +33,11 @@ app.use(cors({
   credentials: true,
 }));
 
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/chats', chatingRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // catch 404 and forward to error handler

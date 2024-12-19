@@ -83,8 +83,100 @@ const userController = require('../controllers/userController');
  *                  }
  */
 router.get('/', userController.getUsers);
+/**
+ *  @swagger
+ *    paths:
+ *      /users/my:
+ *        get:
+ *          summary: "내 프로필 조회"
+ *          tags:
+ *              - 유저 API
+ *          responses:
+ *            200:
+ *              description: "조회 성공"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                      id: 1,
+ *                      uuid: "1234567",
+ *                      puuid: "12344567",
+ *                      email: "test@test.com",
+ *                      password: "password",
+ *                      userName: "알리스타",
+ *                      socketId: "huTAXrETlOXiqMcgAAC9",
+ *                    }
+ *            401:
+ *              description: "인증 실패"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "UNAUTHORIZED",
+ *                    message: "회원 인증이 필요합니다."
+ *                  }
+ *            404:
+ *              description: "유저 정보 없음"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "NOT_FOUND",
+ *                    message: "해당 내용이 없습니다."
+ *                  }
+ *            500:
+ *              description: "서버 에러"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "INTERNAL_SERVER_ERROR",
+ *                    message: "서버 내부에서 에러가 발생했습니다."
+ *                  }
+ */
 router.get('/my', userController.getMyProfile);
-routet.get('/:userId', userController.getUserProfile);
+/**
+ *  @swagger
+ *    paths:
+ *      /users/{userId}:
+ *        get:
+ *          summary: "유저 프로필 조회"
+ *          tags:
+ *              - 유저 API
+ *          parameters:
+ *            - in: path
+ *              name: userId
+ *              required: true
+ *              schema:
+ *                type: integer
+ *          responses:
+ *            200:
+ *              description: "조회 성공"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                      id: 1,
+ *                      uuid: "1234567",
+ *                      puuid: "12344567",
+ *                      email: "test@test.com",
+ *                      password: "password",
+ *                      userName: "알리스타",
+ *                      socketId: "huTAXrETlOXiqMcgAAC9",
+ *                    }
+ *            404:
+ *              description: "유저 정보 없음"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "NOT_FOUND",
+ *                    message: "해당 내용이 없습니다."
+ *                  }
+ *            500:
+ *              description: "서버 에러"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "INTERNAL_SERVER_ERROR",
+ *                    message: "서버 내부에서 에러가 발생했습니다."
+ *                  }
+ */
+router.get('/:userId', userController.getUserProfile);
 /**
  *  @swagger
  *  paths:

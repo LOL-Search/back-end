@@ -3,7 +3,42 @@ const userStore = require('../store/userStore');
 const errorMessage = require('../utils/errorMessage');
 
 const user = {}
+// 유저 정보 조회
+user.getUsers = async (req, res) => {
+  try {
+    const { userName, page, pageSize } = req.query;
 
+    const users = await userStore.findByUserName(userName, page, pageSize);
+
+    if (users.length) {
+      return res.status(200).json(users);
+    } else {
+      return errorMessage(res, 404);
+    }
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return errorMessage(res, 500);
+  }
+};
+// 유저 프로필 조회
+user.getUserProfile = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) return errorMessage(res, 400);
+
+    const user = await userStore.findById([userId]);
+
+    if (user.length) {
+      return res.status(200).json(user[0]);
+    } else {
+      return errorMessage(res, 404);
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    return errorMessage(res, 500);
+  }
+};
+// 내 프로필 조회
 user.getMyProfile = async (req, res) => {
   try {
     const token = req.headers['authorization'];
@@ -13,8 +48,8 @@ user.getMyProfile = async (req, res) => {
 
     const user = await userStore.findById([authorization.id]);
     
-    if (user) {
-      return res.status(200).json(user); 
+    if (user.length) {
+      return res.status(200).json(user[0]); 
     } else {
       return errorMessage(res, 404); 
     }
@@ -23,40 +58,8 @@ user.getMyProfile = async (req, res) => {
     return errorMessage(res, 500); 
   }
 };
+// 유저 정보 등록
 
-user.getUsers = async (req, res) => {
-  try {
-    const { userName, page, pageSize } = req.query;
-
-    const results = await userStore.findByUserName(userName, page, pageSize);
-
-    if (results.length) {
-      return res.status(200).json(results);
-    } else {
-      return errorMessage(res, 404);
-    }
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    return errorMessage(res, 500);
-  }
-};
-
-user.getUserProfile = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    if (!userId) return errorMessage(res, 400);
-
-    const result = await userStore.findById([userId]);
-
-    if (result) {
-      return res.status(200).json(result);
-    } else {
-      return errorMessage(res, 404);
-    }
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    return errorMessage(res, 500);
-  }
-};
+// 유저 정보 수정
 
 module.exports = user;

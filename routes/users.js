@@ -3,6 +3,7 @@ var router = express.Router();
 
 const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
+
 /**
  *  @swagger
  *    paths:
@@ -81,7 +82,9 @@ const userController = require('../controllers/userController');
  *                    message: "서버 내부에서 에러가 발생했습니다."
  *                  }
  */
-router.get('/', authController.getPuuid);
+router.get('/', userController.getUsers);
+router.get('/my', userController.getMyProfile);
+routet.get('/:userId', userController.getUserProfile);
 /**
  *  @swagger
  *  paths:
@@ -164,5 +167,5 @@ router.get('/test', (req, res) => {
 
     res.json(testData);  // JSON 형식으로 응답
 });
-router.get('/my', userController.getMyProfile);
+
 module.exports = router;

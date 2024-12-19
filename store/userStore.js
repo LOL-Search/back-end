@@ -1,11 +1,12 @@
 const db = require('../config/db');
 
 class UserStore {
+  // 구글 소셜 로그인을 위한 사용자 조회
   async findByGoogleId(googleId) {
       const [rows] = await db.execute('SELECT * FROM user_table WHERE uuid = ?', [googleId]);
       return rows[0];
   }
-
+  // 구글 소셜 로그인을 위한 사용자 생성
   async createUser(user) {
     const { google_id, email, name } = user;
     const [result] = await db.execute(
@@ -14,7 +15,7 @@ class UserStore {
     );
     return { id: result.insertId, ...user };
   }
-
+  // 사용자 이름으로 조회
   async findByUserName(userName, page, pageSize) {
     let queryParams = [];
     let query = `SELECT * FROM users`;
@@ -35,10 +36,11 @@ class UserStore {
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }
-  // 사용자 ID로 조회 (추가된 부분)
+
+  // 사용자 ID로 조회
   async findById(userId) {
-    const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [userId]);
-    return rows[0];
+    const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', userId);
+    return rows;
   }
 }
 

@@ -321,6 +321,16 @@ router.get('/test', (req, res) => {
  *                            type: string
  *                            description: "선택한 챔피언 이름"
  *                            example: "Zed"
+ *                          killParticipation:
+ *                            type: number
+ *                            format: float
+ *                            description: "킬 참여율"
+ *                            example: 0.5
+ *                          gameLength:
+ *                            type: number
+ *                            format: float
+ *                            description: "게임 길이 (초 단위)"
+ *                            example: 1800.0
  *                    summonRank:
  *                      type: array
  *                      description: "소환사의 랭크 정보"

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const authController = require('../controllers/authController');
-
+const userController = require('../controllers/userController');
 /**
  *  @swagger
  *    paths:
@@ -164,4 +164,5 @@ router.get('/test', (req, res) => {
 
     res.json(testData);  // JSON 형식으로 응답
 });
+router.get('/my', userController.getMyProfile);
 module.exports = router;

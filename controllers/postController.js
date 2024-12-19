@@ -1,8 +1,8 @@
 const jwtUtil = require('../utils/jwt');
 const postStore = require('../store/postStore');
 const errorMessage = require('../utils/errorMessage');
-const post = {}
 
+const post = {}
 
 // 게시판 조회
 post.getBoard = async (req, res) => {

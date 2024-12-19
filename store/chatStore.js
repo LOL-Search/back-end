@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const errorMessage = require('../utils/errorMessage');
 
 class ChatStore {
     allChatingRooms = async (user_id, currentPage, limit) => {
@@ -72,18 +73,17 @@ class ChatStore {
       
       try { 
           await connection.beginTransaction();
+          console.log(-1);
           let [results] = await db.execute(checkQuery, values);
           values = [user_id, room_id];
-          console.log(results);
           let [rows] = await db.execute(delRoomMemQuery, values);
-          console.log(results);
           console.log(results[0].nums);
           if (results[0].nums == 1) {
             values = [`${user_id}`, `${room_id}`];
             await db.execute(delMesQuery, values);
             values = [`${room_id}`];
             await db.execute(delRoomQuery, values);  
-          } 
+          }
           
           return rows;
         } catch (error) {

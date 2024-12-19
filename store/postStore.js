@@ -19,10 +19,6 @@ class PostStore {
     
     query += ` LIMIT ? OFFSET ?`;
 
-    console.log(userName, page, pageSize);
-    console.log(query);
-    console.log(queryParams);
-
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }
@@ -46,6 +42,7 @@ class PostStore {
       return rows[0];
     } catch (error) {
       await connection.rollback();
+      return error;
     } finally {
       connection.release();
     }
@@ -58,25 +55,31 @@ class PostStore {
   }
   // 게시물 수정
   async editPost(queryParams) {
-    const query = `UPDATE posts SET title = ?, content = ? WHERE id = ?`;
+    const query = `UPDATE posts SET title = ?, content = ? WHERE id = ? AND user_id = ?`;
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }
   // 게시물 삭제
   async delPost(queryParams) {
-    const delPostQuery = `DELETE FROM posts WHERE id = ?`;
+    const delPostQuery = `DELETE FROM posts WHERE id = ? AND user_id = ?`;
     const delCommentQuery = `DELETE FROM comments WHERE post_id = ?`;
 
     const connection = await db.getConnection();
 
     try {
       await connection.beginTransaction();
-      await db.execute(delCommentQuery, queryParams);
       const [rows] = await db.execute(delPostQuery, queryParams);
+      if (rows.affectedRows == 1) {
+        await db.execute(delCommentQuery, [queryParams[0]]);
+      } else {
+        await connection.rollback();
+        return rows;
+      }
       await connection.commit();
       return rows;
     } catch (error) {
       await connection.rollback();
+      return error;
     } finally {
       connection.release();
     }

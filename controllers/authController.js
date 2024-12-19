@@ -2,7 +2,8 @@ const authService = require('../services/authService');
 
 exports.googleLogin = async (req, res) => {
     try {
-        const { code } = req.body; // 인가 코드 받기
+        // 인가 코드 받기
+        const { code } = req.body;
         if (!code) {
             return res.status(400).json({ message: 'Authorization code is required.' });
         }

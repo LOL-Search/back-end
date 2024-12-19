@@ -13,12 +13,6 @@ const comment = require('../controllers/commentController');
  *          tags:
  *            - 게시물 API
  *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: false
- *              schema:
- *                type: string
  *            - in: query
  *              name: userName
  *              description: "User name"
@@ -80,7 +74,7 @@ const comment = require('../controllers/commentController');
  *                application/json:
  *                  example: {
  *                    errorCode: "NOT_FOUND",
- *                    message: "해당 게시물이 없습니다."
+ *                    message: "해당 내용이 없습니다."
  *                  }
  *            500:
  *              description: "서버 에러"
@@ -100,13 +94,6 @@ router.get('/', post.getBoard);
  *          summary: "게시물 등록"
  *          tags:
  *            - 게시물 API
- *          parameters:
- *            - in: header
- *              name: Authorization
- *              description: "Bearer token"
- *              required: true
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -114,14 +101,11 @@ router.get('/', post.getBoard);
  *                schema:
  *                  type: object
  *                  properties:
- *                    userId:
- *                      type: integer
  *                    title:
  *                      type: string
  *                    content:
  *                      type: string
  *                  required:
- *                    - userId
  *                    - title
  *                    - content
  *                example:
@@ -176,11 +160,6 @@ router.post('/', post.createPost);
  *              schema:
  *                type: integer
  *              required: true
- *            - in: header
- *              name: Authorization
- *              required: false
- *              schema:
- *                type: string
  *          responses:
  *            200:
  *              description: "게시판 조회 성공"
@@ -227,12 +206,6 @@ router.get('/:postId', post.getPost);
  *              schema:
  *                type: integer
  *              required: true
- *            - in: header
- *              name: Authorization
- *              description: Bearer token
- *              required: true
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -240,18 +213,14 @@ router.get('/:postId', post.getPost);
  *                schema:
  *                  type: object
  *                  properties:
- *                    userId:
- *                      type: integer
  *                    title:
  *                      type: string
  *                    content:
  *                      type: string
  *                  required:
- *                    - userId
  *                    - title
  *                    - content
  *                example:
- *                  userId: 6
  *                  title: "업데이트된 제목"
  *                  content: "수정된 게시물 내용입니다."
  *          responses:
@@ -310,25 +279,6 @@ router.put('/:postId', post.editPost);
  *              schema:
  *                type: integer
  *              required: true
- *            - in: header
- *              name: Authorization
- *              description: Bearer token
- *              required: true
- *              schema:
- *                type: string
- *          requestBody:
- *            required: true
- *            content:
- *              application/json:
- *                schema:
- *                  type: object
- *                  properties:
- *                    userId:
- *                      type: integer
- *                  required:
- *                    - userId
- *                example:
- *                  userId: 6
  *          responses:
  *            200:
  *              description: "게시물 삭제 성공"
@@ -449,12 +399,6 @@ router.get('/:postId/comments', comment.getComment);
  *              required: true
  *              schema:
  *                type: integer
- *            - in: header
- *              name: Authorization
- *              description: Bearer token
- *              required: true
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -530,12 +474,6 @@ router.post('/:postId/comments', comment.createComment);
  *              required: true
  *              schema:
  *                type: integer
- *            - in: header
- *              name: Authorization
- *              description: Bearer token
- *              required: true
- *              schema:
- *                type: string
  *          requestBody:
  *            required: true
  *            content:
@@ -543,15 +481,11 @@ router.post('/:postId/comments', comment.createComment);
  *                schema:
  *                  type: object
  *                  properties:
- *                    userId:
- *                      type: integer
  *                    content:
  *                      type: string
  *                  required:
- *                    - userId
  *                    - content
  *                example:
- *                  userId: 45
  *                  content: "수정된 댓글 내용입니다."
  *          responses:
  *            200:
@@ -615,24 +549,6 @@ router.put('/:postId/comments/:commentId', comment.editComment);
  *              required: true
  *              schema:
  *                type: integer
- *            - in: header
- *              name: Authorization
- *              required: true
- *              schema:
- *                type: string
- *          requestBody:
- *            required: true
- *            content:
- *              application/json:
- *                schema:
- *                  type: object
- *                  properties:
- *                    userId:
- *                      type: integer
- *                  required:
- *                    - userId
- *                example:
- *                  userId: 45
  *          responses:
  *            200:
  *              description: "댓글 삭제 성공"

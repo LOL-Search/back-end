@@ -21,13 +21,13 @@ class CommentStore {
   }
   // 댓글 수정
   async editComment(queryParams) {
-    const query = `UPDATE comments SET content = ? WHERE id = ?`;
+    const query = `UPDATE comments SET content = ? WHERE id = ? AND user_id = ?`;
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }
   // 댓글 삭제
   async delComment(queryParams) {
-    const query = `DELETE FROM comments WHERE id = ?`;
+    const query = `DELETE FROM comments WHERE id = ? AND user_id = ?`;
     const [rows] = await db.execute(query, queryParams);
     return rows; 
   }

@@ -33,7 +33,6 @@ comment.getComment = async (req, res) => {
     return errorMessage(res, 500);
   }
 }
-
 // 댓글 등록
 comment.createComment = async (req, res) => {
   try {
@@ -70,16 +69,15 @@ comment.editComment = async (req, res) => {
     const { postId, commentId } = req.params;
     if (!postId || !commentId) return errorMessage(res, 400);
 
-    const { userId, content } = req.body;
-    if (!userId || !content) return errorMessage(res, 400);
+    const { content } = req.body;
+    if (!content) return errorMessage(res, 400);
 
     const token = req.headers['authorization'];
     if (!token) return errorMessage(res, 401);
 
     const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
-    if (userId != authorization.id) return errorMessage(res, 403);
 
-    const result = await commentStore.editComment([content, commentId]);
+    const result = await commentStore.editComment([content, commentId, authorization.id]);
 
     if (result.affectedRows == 1) {
       return res.status(200).json({
@@ -87,7 +85,7 @@ comment.editComment = async (req, res) => {
         "message": "댓글이 성공적으로 수정되었습니다."
       });
     } else {
-      return errorMessage(res, 404);
+      return errorMessage(res, 403);
     }
   } catch (error) {
     return errorMessage(res, 500);
@@ -100,16 +98,12 @@ comment.delComment = async (req, res) => {
     const { postId, commentId } = req.params;
     if (!postId || !commentId) return errorMessage(res, 400);
 
-    const { userId } = req.body;
-    if (!userId) return errorMessage(res, 400);
-
     const token = req.headers['authorization'];
     if (!token) return errorMessage(res, 401);
 
     const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
-    if (userId != authorization.id) return errorMessage(res, 403);
 
-    const result = await commentStore.delComment([commentId]);
+    const result = await commentStore.delComment([commentId, authorization.id]);
 
     if (result.affectedRows == 1) {
       return res.status(200).json({
@@ -117,7 +111,7 @@ comment.delComment = async (req, res) => {
         "message": "댓글이 성공적으로 삭제되었습니다."
       });
     } else {
-      return errorMessage(res, 404);
+      return errorMessage(res, 403);
     }
   } catch (error) {
     return errorMessage(res, 500);

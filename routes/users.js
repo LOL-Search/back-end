@@ -2,7 +2,181 @@ var express = require('express');
 var router = express.Router();
 
 const authController = require('../controllers/authController');
+const userController = require('../controllers/userController');
 
+/**
+ *  @swagger
+ *    paths:
+ *      /users:
+ *        get:
+ *          summary: "유저 조회"
+ *          tags:
+ *              - 유저 API
+ *          parameters:
+ *            - in: query
+ *              name: userName
+ *              description: "User name"
+ *              required: false
+ *              schema:
+ *                type: string
+ *            - in: query
+ *              name: page
+ *              description: "Current page (default: 1 page)"
+ *              required: false
+ *              schema:
+ *                type: integer
+ *            - in: query
+ *              name: pageSize
+ *              description: "Number of posts per page (default: 10)"
+ *              required: false
+ *              schema:
+ *                type: integer
+ *          responses:
+ *            200:
+ *              description: "게시판 조회 성공"
+ *              content:
+ *                application/json:
+ *                  example: [
+ *                    {
+ *                      id: 1,
+ *                      uuid: "1234567",
+ *                      puuid: "12344567",
+ *                      email: "test@test.com",
+ *                      password: "password",
+ *                      userName: "알리스타",
+ *                      socketId: "huTAXrETlOXiqMcgAAC9",
+ *                    },
+ *                    {
+ *                      id: 2,
+ *                      uuid: "1234436346cg567",
+ *                      puuid: "12344234cwer567",
+ *                      email: "admin@admin.com",
+ *                      password: "password",
+ *                      userName: "가렌",
+ *                      socketId: "huTAXdfslOXiqMcgAAC9",
+ *                    },
+ *                    {
+ *                      id: 3,
+ *                      uuid: "66345fgd",
+ *                      puuid: "123445dfsaf67",
+ *                      email: "test@test.com",
+ *                      password: "password",
+ *                      userName: "조이",
+ *                      socketId: "huTAXrETlOXiqMcgAAC9",
+ *                    },
+ *                  ]
+ *            404:
+ *              description: "유저 정보 없음"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "NOT_FOUND",
+ *                    message: "해당 내용이 없습니다."
+ *                  }
+ *            500:
+ *              description: "서버 에러"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "INTERNAL_SERVER_ERROR",
+ *                    message: "서버 내부에서 에러가 발생했습니다."
+ *                  }
+ */
+router.get('/', userController.getUsers);
+/**
+ *  @swagger
+ *    paths:
+ *      /users/my:
+ *        get:
+ *          summary: "내 프로필 조회"
+ *          tags:
+ *              - 유저 API
+ *          responses:
+ *            200:
+ *              description: "조회 성공"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                      id: 1,
+ *                      uuid: "1234567",
+ *                      puuid: "12344567",
+ *                      email: "test@test.com",
+ *                      password: "password",
+ *                      userName: "알리스타",
+ *                      socketId: "huTAXrETlOXiqMcgAAC9",
+ *                    }
+ *            401:
+ *              description: "인증 실패"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "UNAUTHORIZED",
+ *                    message: "회원 인증이 필요합니다."
+ *                  }
+ *            404:
+ *              description: "유저 정보 없음"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "NOT_FOUND",
+ *                    message: "해당 내용이 없습니다."
+ *                  }
+ *            500:
+ *              description: "서버 에러"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "INTERNAL_SERVER_ERROR",
+ *                    message: "서버 내부에서 에러가 발생했습니다."
+ *                  }
+ */
+router.get('/my', userController.getMyProfile);
+/**
+ *  @swagger
+ *    paths:
+ *      /users/{userId}:
+ *        get:
+ *          summary: "유저 프로필 조회"
+ *          tags:
+ *              - 유저 API
+ *          parameters:
+ *            - in: path
+ *              name: userId
+ *              required: true
+ *              schema:
+ *                type: integer
+ *          responses:
+ *            200:
+ *              description: "조회 성공"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                      id: 1,
+ *                      uuid: "1234567",
+ *                      puuid: "12344567",
+ *                      email: "test@test.com",
+ *                      password: "password",
+ *                      userName: "알리스타",
+ *                      socketId: "huTAXrETlOXiqMcgAAC9",
+ *                    }
+ *            404:
+ *              description: "유저 정보 없음"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "NOT_FOUND",
+ *                    message: "해당 내용이 없습니다."
+ *                  }
+ *            500:
+ *              description: "서버 에러"
+ *              content:
+ *                application/json:
+ *                  example: {
+ *                    errorCode: "INTERNAL_SERVER_ERROR",
+ *                    message: "서버 내부에서 에러가 발생했습니다."
+ *                  }
+ */
+router.get('/:userId', userController.getUserProfile);
 /**
  *  @swagger
  *  paths:
@@ -10,7 +184,7 @@ const authController = require('../controllers/authController');
  *      post:
  *        summary: "구글 로그인"
  *        tags:
- *          - 인증 API
+ *          - 유저 API
  *        requestBody:
  *          required: true
  *          content:
@@ -70,9 +244,8 @@ const authController = require('../controllers/authController');
  *                  "error": "Some error message"
  *                }
  */
-
-
 router.post('/login', authController.googleLogin);
+
 router.get('/test', (req, res) => {
     // 테스트용 JSON 응답
     const testData = {
@@ -86,4 +259,5 @@ router.get('/test', (req, res) => {
 
     res.json(testData);  // JSON 형식으로 응답
 });
+
 module.exports = router;

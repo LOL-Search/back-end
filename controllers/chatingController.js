@@ -162,6 +162,8 @@ chats.outRoom = async (req, res) => {
             return res.status(200).json({
                 "message" : "채팅방을 성공적으로 나왔습니다."
             })
+        }else{
+            errorMessage(res, 401);
         }
     } catch(error){
         return errorMessage(res, 500)

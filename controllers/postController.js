@@ -11,8 +11,8 @@ post.getBoard = async (req, res) => {
 
     const results = await postStore.getBoard(keyword, page, pageSize);
 
-    if (results.length) {
-      results.map((result) => {
+    if (results.rows.length) {
+      results.rows.map((result) => {
         result.postId = result.id;
         result.userId = result.user_id;
         result.userName = result.user_name;

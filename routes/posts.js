@@ -36,38 +36,41 @@ const comment = require('../controllers/commentController');
  *              description: "게시판 조회 성공"
  *              content:
  *                application/json:
- *                  example: [
- *                    {
- *                      title: "자유 랭크 게임 인원 모집 (3/5)",
- *                      content: "골드 이상 미드 또는 탑 라인 가시는 분 (탑베인 사절)",
- *                      views: 5,
- *                      comments: 6,
- *                      postId: 1,
- *                      userId: 1,
- *                      userName: "알리스타",
- *                      createdAt: "2024-10-11 19:20:11",
- *                    },
- *                    {
- *                      title: "이번에 출시한 신규 챔피언은 사기가 맞다",
- *                      content: "아니, 벽을 연속으로 넘어다니는 챔피언이 캐릭터냐?!",
- *                      views: 132,
- *                      comments: 13,
- *                      postId: 2,
- *                      userId: 2,
- *                      userName: "조이",
- *                      createdAt: "2024-11-11 15:20:11",
- *                    },
- *                    {
- *                      title: "아케인 시즌2 징크스 이쁘다",
- *                      content: "아케인 시즌2에 나오는 징크스 게임에서도 스킨으로 나왔으면 좋겠다:)",
- *                      views: 5132,
- *                      comments: 0,
- *                      postId: 3,
- *                      userId: 3,
- *                      userName: "징크스", 
- *                      createdAt: "2024-12-01 09:31:01",
- *                    },
- *                  ]
+ *                  example: {
+ *                        count: 3,
+ *                        rows: [
+ *                          {
+ *                            "title": "아아, 대상혁",
+ *                            "content": "오늘도 나는 대상혁을 숭배할 수 밖에 없다!",
+ *                            "views": 6,
+ *                            "comments": 1,
+ *                            "postId": 3,
+ *                            "userId": 3,
+ *                            "userName": "tester",
+ *                            "createdAt": "2024-12-14 09:48:42"
+ *                          },
+ *                          {
+ *                            "title": "우리팀 유미는...",
+ *                            "content": "우리팀 유미 나한테 붙어서 아무것도 안함:( PC방 라면시킨듯...",
+ *                            "views": 0,
+ *                            "comments": 0,
+ *                            "postId": 8,
+ *                            "userId": 3,
+ *                            "userName": "tester",
+ *                            "createdAt": "2024-12-14 17:13:35"
+ *                          },
+ *                          {
+ *                            "title": "아케인 시즌2",
+ *                            "content": "아케인 시즌2 징크스 이쁘다!",
+ *                            "views": 0,
+ *                            "comments": 2,
+ *                            "postId": 10,
+ *                            "userId": 3,
+ *                            "userName": "tester",
+ *                            "createdAt": "2024-12-18 09:06:07"
+ *                          },
+ *                        ]
+ *                      }
  *            404:
  *              description: "게시물 없음"
  *              content:

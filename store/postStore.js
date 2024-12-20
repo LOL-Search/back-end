@@ -4,11 +4,14 @@ class PostStore {
   // 게시판 조회
   async getBoard(keyword, page, pageSize) {
     let queryParams = [];
-    let query = `SELECT posts.*, users.nickname AS user_name, (SELECT COUNT(*) FROM comments WHERE post_id = posts.id) AS comments
-                 FROM posts JOIN users ON posts.user_id = users.id`;
+
+    let boardQuery = `SELECT SQL_CALC_FOUND_ROWS posts.*, users.nickname AS user_name, (SELECT COUNT(*) FROM comments WHERE post_id = posts.id) AS comments
+                FROM posts JOIN users ON posts.user_id = users.id`;
+    let countQuery = `SELECT FOUND_ROWS() AS total_count`;
+
     if (keyword) {
       console.log(keyword);
-      query += ` WHERE posts.title LIKE ? OR posts.content LIKE ? OR users.nickname LIKE ?`;
+      boardQuery += ` WHERE posts.title LIKE ? OR posts.content LIKE ? OR users.nickname LIKE ?`;
       queryParams.push(`%${keyword}%`);
       queryParams.push(`%${keyword}%`);
       queryParams.push(`%${keyword}%`);
@@ -16,13 +19,33 @@ class PostStore {
 
     let limit = pageSize ? pageSize : 10;
     queryParams.push(`${limit}`);
-    
+
     let offset = page ? limit * (page - 1) : 0;
     queryParams.push(`${offset}`);
     
-    query += ` LIMIT ? OFFSET ?`;
-    const [rows] = await db.execute(query, queryParams);
-    return rows;
+    boardQuery += ` LIMIT ? OFFSET ?`;
+
+    const connection = await db.getConnection();
+    
+    try {
+      await connection.beginTransaction();
+
+      const [rows] = await db.execute(boardQuery, queryParams);
+      const [count] = await db.execute(countQuery);
+
+      await connection.commit();
+
+      return {count: count[0].total_count, rows};
+    } catch (error) {
+
+      await connection.rollback();
+      return error;
+
+    } finally {
+
+      connection.release();
+
+    }
   }
   // 게시물 조회
   async getPost(queryParams) {

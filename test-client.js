@@ -8,7 +8,7 @@ socket.on("connect", () => {
     console.log("Join room response:", response);
   });
 
-  socket.emit("sendMessage", { content: "안녕안녕!", user: 1, roomId: 11 }, (response) => {
+  socket.emit("sendMessage", { content: "테스트입니다!", user: 1, roomId: 11 }, (response) => {
     console.log("Send message response:", response);
   });
 });

@@ -21,7 +21,8 @@ const errorMessage = (res, statusCode) => {
         message: "해당 내용이 없습니다."
       });
     case 500: 
-      return res.status(500).json({
+
+    return res.status(500).json({
         errorCode: "INTERNAL_SERVER_ERROR",
         message: "서버 내부에서 에러가 발생했습니다."
       });

@@ -2,13 +2,16 @@ const db = require('../config/db');
 
 class PostStore {
   // 게시판 조회
-  async getBoard(userName, page, pageSize) {
+  async getBoard(keyword, page, pageSize) {
     let queryParams = [];
     let query = `SELECT posts.*, users.nickname AS user_name, (SELECT COUNT(*) FROM comments WHERE post_id = posts.id) AS comments
                  FROM posts JOIN users ON posts.user_id = users.id`;
-    if (userName) {
-      query += ` WHERE users.nickname = ?`;
-      queryParams.push(userName);
+    if (keyword) {
+      console.log(keyword);
+      query += ` WHERE posts.title LIKE ? OR posts.content LIKE ? OR users.nickname LIKE ?`;
+      queryParams.push(`%${keyword}%`);
+      queryParams.push(`%${keyword}%`);
+      queryParams.push(`%${keyword}%`);
     }
 
     let limit = pageSize ? pageSize : 10;
@@ -18,7 +21,6 @@ class PostStore {
     queryParams.push(`${offset}`);
     
     query += ` LIMIT ? OFFSET ?`;
-
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }

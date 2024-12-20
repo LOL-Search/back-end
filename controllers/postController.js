@@ -7,9 +7,9 @@ const post = {}
 // 게시판 조회
 post.getBoard = async (req, res) => {
   try {
-    const { userName, page, pageSize } = req.query;
+    const { keyword, page, pageSize } = req.query;
 
-    const results = await postStore.getBoard(userName, page, pageSize);
+    const results = await postStore.getBoard(keyword, page, pageSize);
 
     if (results.length) {
       results.map((result) => {

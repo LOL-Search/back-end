@@ -14,8 +14,8 @@ const comment = require('../controllers/commentController');
  *            - 게시물 API
  *          parameters:
  *            - in: query
- *              name: userName
- *              description: "User name"
+ *              name: keyword
+ *              description: "keyword for search"
  *              required: false
  *              schema:
  *                type: string

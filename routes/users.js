@@ -39,7 +39,7 @@ router.get('/test', (req, res) => {
  *                  tag:
  *                    type: string
  *                    description: "리그 오브 레전드 소환사 태그"
- *                    example: "1"
+ *                    example: "kr1"
  *        responses:
  *          200:
  *            description: "소환사 상태 정보 조회 성공"

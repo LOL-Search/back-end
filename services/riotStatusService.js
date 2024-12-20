@@ -24,7 +24,7 @@ class RiotStatusService {
 
     // 소환사의 PUUID 가져오기
     async getPuuid(userName, tag) {
-        const url = `https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${userName}/kr${tag}`;
+        const url = `https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${userName}/${tag}`;
         const data = await this.makeRequest(url);
         return data.puuid;  // PUUID 반환
     }
@@ -46,12 +46,20 @@ class RiotStatusService {
     async getRankInfo(summonId) {
         const url = `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonId}`;
         const data = await this.makeRequest(url);  // 랭킹 정보 요청
+        const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        const romanToNumber = {
+            "I": 1,
+            "II": 2,
+            "III": 3,
+            "IV": 4,
+            "V": 5
+        };
 
         // 필요한 항목만 추출해서 반환
         return data.map((entry) => ({
             queueType: entry.queueType,
-            tier: entry.tier,
-            rank: entry.rank,
+            tier: capitalize(entry.tier),
+            rank: romanToNumber[entry.rank] || entry.rank,
             leaguePoints: entry.leaguePoints,
             wins: entry.wins,
             losses: entry.losses

@@ -35,6 +35,22 @@ module.exports = function (io) {
       }
     });
 
+    socket.on("leaveRoom", async (data, cb) => {
+      const { roomId } = data;
+      console.log(`User ${socket.id} is leaving room: ${roomId}`);
+
+      try {
+        socket.leave(roomId);
+        console.log(`User ${socket.id} has leaved room ${roomId}`);
+        cb({ ok: true });
+      } catch (error) {
+        console.error("Error leaving room:", error);
+
+        const errorResponse = errorMessage(null, 500);
+        cb({ ok: false, error: errorResponse.message });
+      }
+    });
+
     socket.on("sendMessage", async (data, cb) => {
       try {
         const { content, roomId } = data;

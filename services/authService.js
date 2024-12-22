@@ -7,6 +7,10 @@ class AuthService {
     async handleGoogleLogin(authCode) {
         try {
             // 1. 구글로부터 Access Token 요청
+            console.log('authCode:', authCode);
+            console.log('client_id:', process.env.GOOGLE_CLIENT_ID);
+            console.log('client_secret:', process.env.GOOGLE_CLIENT_SECRET);
+            console.log('redirect_uri:', process.env.REDIRECT_URI);
             let tokenResponse;
             try {
                 tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {

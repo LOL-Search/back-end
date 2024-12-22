@@ -151,7 +151,7 @@ router.post('/status', riotStatusController.getStatus);
  *              schema:
  *                type: object
  *                properties:
- *                  authCode:
+ *                  code:
  *                    type: string
  *                    description: "구글 인가 코드"
  *                    example: "4/0AY0e-g6jF5YrcQ2Z_1wN9uFw0L4Qx8HMI_J_JZaDffqDgFsGPlR3KH0z5I_tlhvxqXiRR9BqgVZyhw4bkj8HzT0N5c7t40FQFUz"

@@ -58,8 +58,32 @@ user.getMyProfile = async (req, res) => {
     return errorMessage(res, 500); 
   }
 };
-// 유저 정보 등록
-
 // 유저 정보 수정
+user.updateUser = async (req, res) => {
+  try {
+    const { name, tag } = req.body
+    if (!name || !tag) return errorMessage(res, 400);
+  
+    const token = req.headers['authorization'];
+    if (!token) return errorMessage(res, 401);
+  
+    const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
+    
+    const result = await userStore.updateUser(`${name}#${tag}`, authorization.id);
+
+    if (result.affectedRows == 1) {
+      return res.status(200).json({
+        "userId": authorization.id,
+        "message": "유저 정보가 성공적으로 수정되었습니다."
+      });
+    } else {
+      return errorMessage(res, 403);
+    }
+  } catch (error) {
+    console.log('Error updating user:', error);
+    return errorMessage(res, 500);
+  }
+  
+};
 
 module.exports = user;

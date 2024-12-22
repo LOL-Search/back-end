@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const authController = require('../controllers/authController');
+const userController = require('../controllers/userController');
 const riotStatusController=require('../controllers/riotStatusController')
 
 router.get('/test', (req, res) => {
@@ -204,5 +205,9 @@ router.post('/status', riotStatusController.getStatus);
  *                }
  */
 router.post('/login', authController.googleLogin);
+
+// router.get('/my', authController.getMyInfo);
+
+router.put('/my', userController.updateUser);
 
 module.exports = router;

@@ -15,6 +15,13 @@ class UserStore {
     );
     return { id: result.insertId, ...user };
   }
+
+  async updateUser(userName, userId) {
+    const query = `UPDATE users SET nickname = ? WHERE id = ?`;
+    const [rows] = await db.execute(query, [userName, userId]);
+    return rows;
+  }
+  
   // 사용자 이름으로 조회
   async findByUserName(userName, page, pageSize) {
     let queryParams = [];

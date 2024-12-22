@@ -5,7 +5,7 @@ class CommentStore {
   async getComment(queryParams) {
     const query = `SELECT comments.*, users.nickname AS user_name
                    FROM comments JOIN users ON comments.user_id = users.id
-                   WHERE post_id = ?`;
+                   WHERE post_id = ? ORDER BY comments.created_at DESC`;
     const [rows] = await db.execute(query, queryParams);
     return rows;
   }

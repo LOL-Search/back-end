@@ -23,7 +23,7 @@ class PostStore {
     let offset = page ? limit * (page - 1) : 0;
     queryParams.push(`${offset}`);
     
-    boardQuery += ` LIMIT ? OFFSET ?`;
+    boardQuery += ` ORDER BY posts.created_at DESC LIMIT ? OFFSET ?`;
 
     const connection = await db.getConnection();
     

@@ -10,7 +10,7 @@ class UserStore {
   async createUser(user) {
     const { google_id, email, name } = user;
     const [result] = await db.execute(
-        'INSERT INTO users (uuid, email, nickname) VALUES (?, ?, ?)',
+        'INSERT INTO users (uuid, email, name) VALUES (?, ?, ?)',
         [google_id, email, name]
     );
     return { id: result.insertId, ...user };

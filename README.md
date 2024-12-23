@@ -40,8 +40,6 @@ back-end
   │     └── jwt.js                  # JWT 토큰 처리 로직
   └── app.js
 ```
-### 📃 API 문서
-#### [Swagger API Document](https://43-200-225-123.nip.io/api-docs/)
 ### 🛠 프로젝트 클론
 ##### .env 추가
 ```

@@ -5,7 +5,7 @@ const jwtUtil = require("../utils/jwt");
 module.exports = function (io) {
   io.on("connection", (socket) => {
     console.log("Client is connected", socket.id);
-    let token = socket.handshake.headers.token;
+    let token = socket.handshake.auth.token;
     console.log(token);
     if(!token) socket.disconnect();
 

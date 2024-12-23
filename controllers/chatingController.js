@@ -107,7 +107,7 @@ chats.getMessages = async (req, res)=>{
         const authorization = jwtUtil.verifyToken(token.split(' ')[1]);
         let user_id = authorization.id;
         console.log(user_id);
-        let results = await chatStore.getMessages(user_id, roomId, page, pageSize);
+        let results = await chatStore.getMessages(user_id, roomId, 1, 1000);
         console.log(results);
         if (results.length){
             results.map((result) => {
@@ -116,8 +116,9 @@ chats.getMessages = async (req, res)=>{
             delete result.user_id;
             });
             return res.status(200).json(results);
-        } 
-       
+        } else{
+            errorMessage(res, 404);
+        }       
     } catch(error){
         return errorMessage(res, 500)
     }   

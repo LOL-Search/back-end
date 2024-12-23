@@ -1,5 +1,12 @@
 ## 🔍 lol-search back-end
 
+### 🚩 기술 스택
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ### 📁 프로젝트 구조
 ```
 back-end
@@ -33,6 +40,8 @@ back-end
   │     └── jwt.js                  # JWT 토큰 처리 로직
   └── app.js
 ```
+### 📃 API 문서
+#### [Swagger API Document](http://43.200.225.123:9999/api-docs)
 ### 🛠 프로젝트 클론
 ##### .env 추가
 ```
